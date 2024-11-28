@@ -1,0 +1,253 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
+}
+
+/* Header */
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Creates space between logo and nav-links */
+    align-items: center; /* Aligns items vertically in the center */
+    padding: 10px 20px;
+    background-color: #007BFF;
+}
+
+.nav-links ul {
+    list-style: none; /* Removes bullet points */
+    margin: 0;
+    padding: 0;
+    display: flex; /* Makes the links horizontal */
+    gap: 15px;
+}
+
+.nav-links ul li {
+    display: inline;
+}
+
+.nav-links ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 5px 10px;
+}
+
+.nav-links ul li a.active {
+    background-color: #0056b3;
+    border-radius: 5px;
+}
+
+.nav-links ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+    background: url('bus.jpg') no-repeat center center/cover;
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    position: relative;
+}
+
+.hero-content {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero-content h2 {
+    margin: 0 0 20px 0;
+}
+
+.hero-content button {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.hero-content button:hover {
+    background-color: #138496;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 0;
+    font-size: 14px;
+}
+
+/* Schedule Section */
+.schedule {
+    width: 90%;
+    margin: 30px auto;
+}
+
+.schedule h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+.schedule table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.schedule table th, 
+.schedule table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.schedule table th {
+    background-color: #007BFF;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.schedule table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.schedule table tr:hover {
+    background-color: #ddd;
+    cursor: pointer;
+}
+
+.schedule button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.schedule button:hover {
+    background-color: #0056b3;
+}
+
+/* Link to Full Schedule */
+.schedule-link {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.schedule-link a {
+    text-decoration: none;
+    color: white;
+    background-color: #007BFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.schedule-link a:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-links ul {
+        flex-direction: column;
+    }
+
+    .nav-links ul li {
+        margin: 5px 0;
+    }
+
+    .hero {
+        height: 50vh;
+    }
+
+    .schedule table {
+        font-size: 14px;
+    }
+
+    .schedule table th, 
+    .schedule table td {
+        padding: 8px;
+    }
+}
+
+/* Animation for Hero Section */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.hero {
+    animation: fadeIn 2s ease-in-out;
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff;
+}

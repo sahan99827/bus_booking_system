@@ -48,15 +48,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if (empty($schedul)) {
     $sql = "SELECT 
                 schedules.id, 
-                schedules.bus_name, 
+                schedules.bus_id,  
                 schedules.departure_time, 
                 schedules.eta, 
                 schedules.travel_date, 
                 schedules.availability, 
                 schedules.price, 
                 sartart_location.name AS start_location_name, 
-                end_location.name AS end_location_name
+                end_location.name AS end_location_name,
+                buses.name AS bus_name
             FROM schedules
+            JOIN buses ON schedules.bus_id = buses.bus_id
             JOIN sartart_location ON schedules.sartart_location_id = sartart_location.id
             JOIN end_location ON schedules.end_location_id = end_location.id";
     $result = $conn->query($sql);
@@ -215,7 +217,7 @@ if ($result->num_rows > 0) {
                                 <?php
                                 while ($row = $result->fetch_assoc()) { // Fetch each row as an associative array
                                  
-                                    echo "<option value='" . htmlspecialchars($row['name']) . "'>" . htmlspecialchars($row['name']) . "</option>";
+                                    echo "<option value='" . htmlspecialchars($row['bus_id']) . "'>" . htmlspecialchars($row['name']) . "</option>";
                                 }
                             }
                 ?>
@@ -280,7 +282,7 @@ if ($result->num_rows > 0) {
                         echo "<td>" . htmlspecialchars($row['eta']) . "</td>";
                         echo "<td>" . htmlspecialchars($row['availability']) . "</td>";
                         echo "<td>Rs. " . htmlspecialchars($row['price']) . "</td>";
-                        echo "<td><button class='book-now' onclick=\"window.location.href='booking.php?bus_id=" . htmlspecialchars($row['id']) . "'\">Book Now</button></td>";
+                        echo "<td><button class='book-now' onclick=\"window.location.href='booking.php?bus_id=" . htmlspecialchars($row['bus_id']) . "'\">Book Now</button></td>";
                         echo "</tr>";
                     }
 

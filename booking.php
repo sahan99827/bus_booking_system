@@ -1,8 +1,30 @@
 <?php
 include 'db_connection.php';
-session_start(); 
+session_start();
+$bookings ='';
+if (empty($bookings)) {
+    $sql = "SELECT bookings.*, 
+    buses.name AS bus_name, 
+    book_type.name AS book_type_name, 
+    users.username AS user_name 
+    FROM bookings
+    JOIN book_type ON bookings.book_type_id = book_type.id
+    JOIN users ON bookings.users_id = users.id
+    JOIN buses ON bookings.bus_id = buses.bus_id";
 
-?>
+    $result = $conn->query($sql);
+
+
+    // Check if the query was successful
+    if ($result && $result->num_rows > 0) {
+        $bookings = $result; // Assign the result object to $bookings
+    } else {
+        $bookings = false; // Mark $bookings as false if no rows or query failed
+    }
+}
+
+    // Render table
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,7 +34,11 @@ session_start();
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="modal.css">
     <link rel="stylesheet" href="book.css">
-</head>
+    <style>
+        .button{
+            width: auto;
+        }
+        </style>
 </head>
 <body>
     <div>
@@ -95,6 +121,7 @@ session_start();
                             <select name="user_id" id="user_id" required>
                                 <option value="" disabled selected>Select Here</option>
                                 <?php
+                                
                                 while ($row = $result->fetch_assoc()) { // Fetch each row as an associative array
                                  
                                     echo "<option value='" . htmlspecialchars($row['id']) . "'>" . htmlspecialchars($row['username']) . "</option>";
@@ -108,7 +135,53 @@ session_start();
             </div>
     </form>
 </div>
+<section class="schedule">
+<div>
+    <h2>Booking View</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Bus Name</th>
+                <th>Total Seats</th>
+                <th>Booking Type</th>
+                <th>Total Price</th>
+                <th>Customer</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+           if ($bookings && $bookings->num_rows > 0) {
+            $counter = 1;
+            while ($row = $bookings->fetch_assoc()) {
+                echo "<tr>";
+                echo "<td>" . $counter++ . "</td>";
+                echo "<td>" . htmlspecialchars($row['bus_name']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['total_seats']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['book_type_name']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['total_price']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['user_name']) . "</td>";
+                echo "<td>
+                        <button class='button busUpdateBtn' data-Book-id='" . htmlspecialchars($row['booking_id']) . "'>Book Edit</button>
+                        <button class='button busDeleteBtn btn-secondary' 
+                            onclick=\"if(confirm('Are you sure you want to delete this book?')) 
+                            window.location.href='book_delete.php?book_id=" . htmlspecialchars($row['booking_id']) . "'\">Book Delete</button>
+                      </td>";
+                echo "</tr>";
+            }
+            } else {
+                echo "<tr><td colspan='7'>No bookings found for this bus.</td></tr>";
+            }
+                ?>
+                </tbody>
+            </table>
 
+    
+            </section>
+
+
+</div>
 
     <div>
     <?php include 'footer.html'; ?>

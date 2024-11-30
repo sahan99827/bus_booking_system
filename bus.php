@@ -95,7 +95,7 @@ if ($result->num_rows > 0) {
                 <input type="text" name="bus_type" id="bus_type">
                 <label for="route">Route Number</label>
                 <input type="text" name="route" id="route">
-
+                
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" id="search">Find</button>
                     <button type="button" class="btn btn-secondary" id="cancelModal">Cancel</button>
@@ -104,6 +104,7 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
+    <!-- Bus add Modal -->
     <div id="busAddModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -124,6 +125,9 @@ if ($result->num_rows > 0) {
                 <label for="route">Route Nuber:</label>
                 <input type="text" name="route" id="route" required>
                
+                <label for="bus_number">Bus Number</label>
+                <input type="text" name="bus_number" id="bus_number">
+
                 <label for="agents_id">Agent Name :</label>
                 <?php
                         $sql1 = "SELECT * FROM agents"; // Query to fetch locations
@@ -151,7 +155,18 @@ if ($result->num_rows > 0) {
         </div>
     </div>
 
-
+<!-- Bus update Modal -->
+<div id="busUpdateModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span>Edit Bus</span>
+            <span class="close" id="busUpdateCloseModal">&times;</span>
+        </div>
+        <div id="busUpdateContent">
+            <!-- Content from bus_update.php will be loaded here -->
+        </div>
+    </div>
+</div>
 
 
     
@@ -209,7 +224,11 @@ if ($result->num_rows > 0) {
                             }
                         }
                         echo "</td>";
-                        echo "<td><button class='book-now' onclick=\"window.location.href='book.php?bus_id=" . htmlspecialchars($row['bus_id']) . "'\">Edit</button></td>";
+                        echo "<td> <button class='busUpdateBtn' data-bus-id='" . htmlspecialchars($row['bus_id']) . "'>Bus Edit</button>
+                                    <button class='busDeleteBtn btn-secondary' 
+                                    onclick=\"if(confirm('Are you sure you want to delete this bus?')) 
+                                    window.location.href='bus_delete.php?bus_id=" . htmlspecialchars($row['bus_id']) . "'\">Bus Delete</button>                        
+                            </td>";
                     
                     echo "</tr>";
                 }
@@ -285,6 +304,48 @@ if ($result->num_rows > 0) {
                 busAddModal.style.display = 'none';
             }
         })
+
+
+    // Selecting all "Edit" buttons in the table
+    const busUpdateBtns = document.querySelectorAll('.busUpdateBtn');
+    const busUpdateModal = document.getElementById('busUpdateModal');
+    const busUpdateCloseModal = document.getElementById('busUpdateCloseModal');
+    const busUpdateCancelModal = document.getElementById('busUpdateCancelModal');
+    const busUpdateContent = document.getElementById('busUpdateContent');
+
+    busUpdateBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+            const busId = btn.getAttribute('data-bus-id');
+
+            // Fetch content dynamically
+            fetch(`bus_update.php?bus_id=${busId}`)
+                .then((response) => response.text())
+                .then((html) => {
+                    busUpdateContent.innerHTML = html; // Load content into the modal
+                    busUpdateModal.style.display = 'block'; // Show the modal
+                })
+                .catch((error) => {
+                    console.error('Error loading bus update content:', error);
+                });
+        });
+    });
+
+    // Close modal functionality
+    busUpdateCloseModal.addEventListener('click', () => {
+        busUpdateModal.style.display = 'none';
+    });
+
+    busUpdateCancelModal.addEventListener('click', () => {
+        busUpdateModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === busUpdateModal) {
+            busUpdateModal.style.display = 'none';
+        }
+    });
+
+
 
         
     </script>

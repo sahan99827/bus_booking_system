@@ -38,6 +38,10 @@ if (empty($bookings)) {
         .button{
             width: auto;
         }
+        .btn{
+            width: 100px;
+            margin: 10px;
+        }
         </style>
 </head>
 <body>
@@ -53,6 +57,7 @@ if (empty($bookings)) {
         </div>
     </div>
 
+    <button class="btn btn-secondary" onclick="goBack()">Go Back</button>
 
     <div class="form-container view">
     <h2>Booking And Ticket</h2>
@@ -214,5 +219,9 @@ if (empty($bookings)) {
             select.selectedIndex = 0;
         });
     });
+
+    function goBack() {
+            window.history.back();
+        }
     </script>
 </html>
